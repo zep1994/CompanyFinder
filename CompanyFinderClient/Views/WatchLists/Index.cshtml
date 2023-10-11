@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CompanyFinderAPI.Models.WatchLists>
+
+<h1>WatchList</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Associated Companies</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var watchList in Model)
+        {
+            <tr>
+                <td>@watchList.Name</td>
+                <td>
+                    @if (watchList.Companies.Any())
+                    {
+                        foreach (var company in watchList.Companies)
+                        {
+                            <p>@company.Name</p>
+                        }
+                    }
+                    else
+                    {
+                        <p>No associated companies</p>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
