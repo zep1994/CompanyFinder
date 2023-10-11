@@ -1,17 +1,34 @@
 ﻿using CompanyFinderAPI.Data;
+using CompanyFinderAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CompanyFinderAPI.Controllers
 {
     public class CompanyController : Controller
     {
-        private const string apiKey = "demo"; // Replace with your AlphaVantage API key
-        private readonly AppDbContext _context;
+        private readonly AppDbContext _dbContext;
 
-
-        public IActionResult Index()
+        public CompanyController(AppDbContext dbContext)
         {
-            return View();
+            _dbContext = dbContext;
+        }
+
+        [HttpPost]
+        [Route("savecompany")]
+        public async Task<IActionResult> SaveCompany([FromForm] Company company)
+        {
+            if (company == null)
+            {
+                return BadRequest("Invalid company data.");
+            }
+
+            // Save the company to the database
+            _dbContext.Companies.Add(company);
+            await _dbContext.SaveChangesAsync();
+
+            return StatusCode(200);
         }
     }
 }
+
