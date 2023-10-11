@@ -31,3 +31,15 @@
 <form asp-action="DeleteCompany" asp-route-id="@Model.Id" method="post">
     <button type="submit">Delete</button>
 </form>
+
+<form asp-action="Fundamentals" asp-controller="Company" method="post">
+    <input type="hidden" name="symbol" value="@Model.Symbol" />
+    <select id="function" name="function">
+        <option value="INCOME_STATEMENT">Income Statement</option>
+        <option value="EARNINGS">Earnings</option>
+        <option value="BALANCE_SHEET">Balance Sheet</option>
+        <option value="CASH_FLOW">Cash Flow</option>
+        <option value="GLOBAL_QUOTE">Quote</option>
+    </select>
+    <button type="submit">Submit</button>
+</form>

@@ -3,6 +3,7 @@ using CompanyFinderAPI.Models;
 using CompanyFinderAPI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
@@ -14,6 +15,10 @@ namespace CompanyFinderAPI.Controllers
     {
         private readonly AppDbContext _dbContext;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly string baseUrl = "https://www.alphavantage.co/query?";
+        private readonly string apiKey = "demo";
+        public string function;
+        
 
 
         public CompanyController(AppDbContext dbContext, IHttpClientFactory clientFactory)
@@ -27,7 +32,7 @@ namespace CompanyFinderAPI.Controllers
         public async Task<IActionResult> AllCompanies()
         {
             var companies = await _dbContext.Companies.ToListAsync();
-            return View("allcompanies", companies);  // Assuming you have a corresponding View named "AllCompanies"
+            return View("allcompanies", companies); 
         }
 
         [HttpGet]
@@ -39,7 +44,8 @@ namespace CompanyFinderAPI.Controllers
             {
                 return NotFound("Company not found.");
             }
-            return View("ShowCompany", company);  // Assuming you have a corresponding View named "ShowCompany"
+
+            return View("ShowCompany", company); 
         }
 
         [HttpPost]
@@ -79,16 +85,16 @@ namespace CompanyFinderAPI.Controllers
             try
             {
                 // Fetch available companies to display in a checkbox list
-                var companies = _dbContext.Companies.ToList(); // Assuming Companies is DbSet<Company> in your DbContext
+                var companies = _dbContext.Companies.ToList(); 
                 ViewBag.Companies = new MultiSelectList(companies, "Id", "Name");
 
                 return View(new WatchListsViewModel());
             }
             catch (Exception ex)
             {
-                // Log or handle the exception appropriately
+                
                 Console.WriteLine(ex.Message);
-                return RedirectToAction("Error"); // Redirect to an error page or handle the error as needed
+                return RedirectToAction("Error"); 
             }
         }
 
@@ -120,39 +126,24 @@ namespace CompanyFinderAPI.Controllers
             return BadRequest();
         }
 
-        //[HttpPost]
-        //public IActionResult Create(Company model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // Create a new company
-        //        var newCompany = new Company
-        //        {
-        //            Symbol = model.Symbol,
-        //            Name = model.Name,
-        //            // ... other properties ...
-        //        };
+        [HttpPost]
+        [Route("Fundamentals")]
+        public async Task<IActionResult> Fundamentals([FromForm] string function, [FromForm] string symbol)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{baseUrl}function={function}&symbol={symbol}&apikey={apiKey}");
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
 
-        //        // Associate the new company with the selected WatchList
-        //        var selectedWatchList = _dbContext.WatchLists.Find(model.WatchListId);
-        //        if (selectedWatchList != null)
-        //        {
-        //            newCompany. WatchList = selectedWatchList;
-        //        }
+            if (response.IsSuccessStatusCode)
+            {
+                var responseStream = await response.Content.ReadAsStreamAsync();
+                var data = await JsonSerializer.DeserializeAsync<Fundamentals>(responseStream);
 
-        //        _dbContext.Companies.Add(newCompany);
-        //        _dbContext.SaveChanges();
-
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    // If validation fails, fetch WatchLists and companies again for the view
-        //    ViewBag.WatchLists = new SelectList(_dbContext.WatchLists, "Id", "Name", model.WatchListId);
-        //    ViewBag.Companies = new MultiSelectList(_dbContext.Companies, "Id", "Name", model.SelectedCompanyIds);
-
-        //    return View(model);
+                return View("Fundamentals", data); 
+            }
+            return BadRequest();
+        }
     }
-
 }
 
 
