@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CompanyFinderAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace CompanyFinderAPI.Data
@@ -9,10 +10,5 @@ namespace CompanyFinderAPI.Data
         : base(options) { }
 
         public DbSet<Company> Companies { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("PostgreSQLConnection");
-        }
     }
 }

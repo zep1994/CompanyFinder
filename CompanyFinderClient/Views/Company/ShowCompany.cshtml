@@ -1,0 +1,33 @@
+﻿@model CompanyFinderAPI.Models.Company
+
+<h1>@Model.Name (@Model.Symbol)</h1>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <td><strong>Symbol</strong></td>
+            <td>@Model.Symbol</td>
+        </tr>
+        <tr>
+            <td><strong>Name</strong></td>
+            <td>@Model.Name</td>
+        </tr>
+        <tr>
+            <td><strong>Description</strong></td>
+            <td>@Model.Description</td>
+        </tr>
+        <tr>
+            <td><strong>Sector</strong></td>
+            <td>@Model.Sector</td>
+        </tr>
+        <tr>
+            <td><strong>Industry</strong></td>
+            <td>@Model.Industry</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Delete button -->
+<form asp-action="DeleteCompany" asp-route-id="@Model.Id" method="post">
+    <button type="submit">Delete</button>
+</form>

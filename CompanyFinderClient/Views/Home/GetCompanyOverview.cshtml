@@ -1,0 +1,48 @@
+﻿@model CompanyFinderAPI.Models.Company
+
+<div class="container mt-5">
+    <h1>@Model.Name (@Model.Symbol)</h1>
+
+    <table class="table table-bordered mt-3">
+        <tbody>
+            <tr>
+                <td><strong>Symbol</strong></td>
+                <td>@Model.Symbol</td>
+            </tr>
+            <tr>
+                <td><strong>Name</strong></td>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <td><strong>Description</strong></td>
+                <td>@Model.Description</td>
+            </tr>
+            <tr>
+                <td><strong>Sector</strong></td>
+                <td>@Model.Sector</td>
+            </tr>
+            <tr>
+                <td><strong>Industry</strong></td>
+                <td>@Model.Industry</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form action="http://localhost:5217/savecompany" method="post">
+        <!-- Display fetched company data and allow saving -->
+        <!-- Use hidden fields to send the fetched data to the SaveController -->
+        <input type="hidden" asp-for="Symbol" />
+        <input type="hidden" asp-for="Name" />
+        <input type="hidden" asp-for="Description" />
+        <input type="hidden" asp-for="Sector" />
+        <input type="hidden" asp-for="Industry" />
+
+        <!-- ... other hidden inputs for company properties ... -->
+
+        <h2>@Model.Name</h2>
+        <p>@Model.Description</p>
+        <!-- ... other display elements ... -->
+
+        <button type="submit">Save to Database</button>
+    </form>
+</div>

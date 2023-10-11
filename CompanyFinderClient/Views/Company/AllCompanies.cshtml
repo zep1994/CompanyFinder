@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CompanyFinderAPI.Models.Company>
+
+<h1>All Companies</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Sector</th>
+            <th>Industry</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var company in Model)
+        {
+            <tr>
+                <td>@company.Symbol</td>
+                <td>@company.Name</td>
+                <td>@company.Description</td>
+                <td>@company.Sector</td>
+                <td>@company.Industry</td>
+                <td>
+                    <a asp-route-id="@company.Id" asp-action="ShowCompany">View</a> |
+                    <a asp-route-id="@company.Id" asp-action="DeleteCompany">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
