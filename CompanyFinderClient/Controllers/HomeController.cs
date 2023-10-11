@@ -1,6 +1,8 @@
-﻿using CompanyFinderAPI.Models;
+﻿using CompanyFinderAPI.Data;
+using CompanyFinderAPI.Models;
 using CompanyFinderClient.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Text.Json;
 
@@ -11,11 +13,20 @@ namespace CompanyFinderClient.Controllers
         private readonly IHttpClientFactory _clientFactory;
         private const string _apiKey = "demo"; // Replace with your AlphaVantage API key
         private static readonly string ApiBaseUrl = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=";
+        private readonly AppDbContext _dbContext;
 
 
-        public HomeController(IHttpClientFactory clientFactory)
+        public HomeController(IHttpClientFactory clientFactory, AppDbContext dbContext)
         {
             _clientFactory = clientFactory;
+            _dbContext = dbContext;
+        }
+
+        //List ALL
+        public async Task<IActionResult> Index()
+        {
+            var companies = await _dbContext.Companies.ToListAsync();
+            return View(companies);
         }
 
         [HttpGet("search")]
@@ -40,24 +51,6 @@ namespace CompanyFinderClient.Controllers
                 return View(data); // Assumes you have a corresponding View named "GetCompanyOverview"
             }
             return BadRequest();
-        }
-
-        //private async Task<Company> GetCompany(string symbol)
-        //{
-        //    var apiUrl = $"https://www.alphavantage.co/query?function=OVERVIEW&symbol={symbol}&apikey=";
-        //    using (var httpClient = new HttpClient())
-        //    {
-        //        var response = await httpClient.GetAsync(apiUrl + symbol + "&apikey=" + _apiKey);
-        //        response.EnsureSuccessStatusCode();`
-
-        //        var responseBody = await response.Content.ReadAsStringAsync();
-        //        var companyOverview = JsonConvert.DeserializeObject<Company>(responseBody);
-        //        return companyOverview;
-        //    }
-        //}
-        public IActionResult Index()
-        {
-            return View();
         }
 
         public IActionResult Privacy()
