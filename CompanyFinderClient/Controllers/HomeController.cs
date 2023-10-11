@@ -1,18 +1,16 @@
 ﻿using CompanyFinderAPI.Data;
 using CompanyFinderAPI.Models;
-using CompanyFinderClient.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace CompanyFinderClient.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
-        private const string _apiKey = "demo"; // Replace with your AlphaVantage API key
-        private static readonly string ApiBaseUrl = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=";
         private readonly AppDbContext _dbContext;
 
 
@@ -23,34 +21,17 @@ namespace CompanyFinderClient.Controllers
         }
 
         //List ALL
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Home()
         {
             var companies = await _dbContext.Companies.ToListAsync();
-            return View(companies);
-        }
+            var watchLists = await _dbContext.WatchLists.ToListAsync();
 
-        [HttpGet("search")]
-        public IActionResult Search()
-        {
-            return View("Search");
-        }
+            var model = new Tuple<List<Company>, List<WatchLists>>(companies, watchLists);
 
-        public async Task<IActionResult> GetCompanyOverview(string symbol)
-        {
-            var apiKey = "demo";
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://www.alphavantage.co/query?function=OVERVIEW&symbol={symbol}&apikey={apiKey}");
-            var client = _clientFactory.CreateClient();
-            var response = await client.SendAsync(request);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var responseStream = await response.Content.ReadAsStreamAsync();
-                var data = await JsonSerializer.DeserializeAsync<Company>(responseStream);
-
-                // Return the data to the view for displaying in a form
-                return View(data); // Assumes you have a corresponding View named "GetCompanyOverview"
-            }
-            return BadRequest();
+            return View("Home", model);
+            //var companies = await _dbContext.Companies.ToListAsync();
+            //return View(companies);
         }
 
         public IActionResult Privacy()

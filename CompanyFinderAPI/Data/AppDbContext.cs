@@ -10,5 +10,7 @@ namespace CompanyFinderAPI.Data
         : base(options) { }
 
         public DbSet<Company> Companies { get; set; }
+        public DbSet<WatchLists> WatchLists { get; set; }
+
     }
 }

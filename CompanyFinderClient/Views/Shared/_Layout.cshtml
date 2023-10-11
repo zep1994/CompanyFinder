@@ -9,47 +9,33 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
             <a class="navbar-brand" href="/">StockDash</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/api/watchlists/Create"><span class="sr-only">WatchLists</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                        <a class="nav-link" href="/Alerts">Alerts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api/company/search">Search</a>
                     </li>
                 </ul>
-                <!-- Adding a search input -->
-                <div class="form-inline my-2 my-lg-0">
-                    <input class="form-control nav-search" id="ticker" name="ticker" type="search" placeholder="Enter Symbol or Name" aria-label="Search">
-                    <button class="btn nav-search-btn" type="submit">Go</button>
-                </div>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/search">Search</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/news">News</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/help">Help</a>
-                    </li>
-                    <!-- Sample profile dropdown, adjust according to your needs -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Privacy
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                            <a class="dropdown-item" href="#">Your Account</a>
-                        </div>
-                    </li>
-                </ul>
+
+                
             </div>
+            <form class="d-flex me-auto" asp-controller="Company" asp-action="search" method="post">
+                <input class="ms-auto" type="search" name="symbol" placeholder="Enter Symbol or Name" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
         </nav>
+
 
 
     </header>

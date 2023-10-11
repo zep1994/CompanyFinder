@@ -1,0 +1,67 @@
+﻿@model Tuple<List<Company>, List<WatchLists>>
+
+<h1>Data Display Page</h1>
+
+<h2>Companies</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Symbol</th>
+            <th>Sector</th>
+            <th>Industry</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var company in Model.Item1)
+        {
+            <tr>
+                <td>@company.Name</td>
+                <td>@company.Description</td>
+                <td>@company.Symbol</td>
+                <td>@company.Sector</td>
+                <td>@company.Industry</td>
+                <td><a href="@Url.Action("Show", "Company", new { id = company.Id })">Show</a></td>
+                <td>
+                    <form asp-action="Delete" asp-controller="WatchList" method="post">
+                        <input type="hidden" name="id" value="@company.Id" />
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Watch Lists</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Sector</th>
+            <th>Industry</th>
+            <th>Companies</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var watchList in Model.Item2)
+        {
+            <tr>
+                <td>@watchList.Name</td>
+                <td>@watchList.Description</td>
+                <td>@watchList.Sector</td>
+                <td>@watchList.Industry</td>
+                <td>@(watchList.Companies != null ? string.Join(", ", watchList.Companies.Select(c => c.Name)) : "No Companies")</td>
+                <td><a href="@Url.Action("Show", "WatchList", new { id = watchList.Id })">Show</a></td>
+                <td>
+                    <form asp-action="Delete" asp-controller="WatchList" method="post">
+                        <input type="hidden" name="id" value="@watchList.Id" />
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
