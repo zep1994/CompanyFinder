@@ -1,0 +1,123 @@
+﻿@model CompanyFinderAPI.Models.Fundamentals
+
+<h1>@Model.Symbol</h1>
+
+<h2>Quote</h2>
+<table class="table">
+    <tbody>
+        @if (Model.GlobalQuote != null)
+        {
+            @foreach (var report in Model.GlobalQuote)
+            {
+                <tr>
+                    <td><strong>@(report.Open != null ? "Open" : null)</strong></td>
+                    <td>@(report.Open != null ? report.Open : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.High != null ? "High" : null)</strong></td>
+                    <td>@(report.High != null ? report.High : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.Low != null ? "Low" : null)</strong></td>
+                    <td>@(report.Low != null ? report.Low : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.Price != null ? "Price" : null)</strong></td>
+                    <td>@(report.Price != null ? report.Price : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.Volume != null ? "Volume" : null)</strong></td>
+                    <td>@(report.Volume != null ? report.Volume : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.LatestTradingDay != null ? "Latest Trading Day" : null)</strong></td>
+                    <td>@(report.LatestTradingDay != null ? report.LatestTradingDay : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.PreviousClose != null ? "Previous Close" : null)</strong></td>
+                    <td>@(report.PreviousClose != null ? report.PreviousClose : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.Change != null ? "Change" : null)</strong></td>
+                    <td>@(report.Change != null ? report.Change : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.ChangePercent != null ? "Change Percent" : null)</strong></td>
+                    <td>@(report.ChangePercent != null ? report.ChangePercent : null)</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<h2>Financial Metrics</h2>
+<table class="table">
+    <tbody>
+        @if (Model.AnnualReports != null)
+        {
+            @foreach (var report in Model.AnnualReports)
+            {
+                <tr>
+                    <td><strong>@(report.OperatingIncome != null ? "Operating Income" : null)</strong></td>
+                    <td>@(report.OperatingIncome != null ? report.OperatingIncome : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.GrossProfit != null ? "Gross Profit" : null)</strong></td>
+                    <td>@(report.GrossProfit != null ? report.GrossProfit : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.TotalRevenue != null ? "Total Revenue" : null)</strong></td>
+                    <td>@(report.TotalRevenue != null ? report.TotalRevenue : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.FiscalDateEnding != null ? "Fiscal Date Ending" : null)</strong></td>
+                    <td>@(report.FiscalDateEnding != null ? report.FiscalDateEnding : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.NetIncome != null ? "Net Income" : null)</strong></td>
+                    <td>@(report.NetIncome != null ? report.NetIncome : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.CashflowFromInvestment != null ? "Cash flow From Investment" : null)</strong></td>
+                    <td>@(report.CashflowFromInvestment != null ? report.CashflowFromInvestment : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.CashflowFromFinancing != null ? "Cash flow From Financing" : null)</strong></td>
+                    <td>@(report.CashflowFromFinancing != null ? report.CashflowFromFinancing : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.ChangeInOperatingLiabilities != null ? "Change In Operating Liabilities" : null)</strong></td>
+                    <td>@(report.ChangeInOperatingLiabilities != null ? report.ChangeInOperatingLiabilities : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.ChangeInOperatingAssets != null ? "Change In Operating Assets" : null)</strong></td>
+                    <td>@(report.ChangeInOperatingAssets != null ? report.ChangeInOperatingAssets : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.Industry != null ? "Industry" : null)</strong></td>
+                    <td>@(report.Industry != null ? report.Industry : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.OperatingCashflow != null ? "Operating Cash flow" : null)</strong></td>
+                    <td>@(report.OperatingCashflow != null ? report.OperatingCashflow : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.ProfitLoss != null ? "Profit Loss" : null)</strong></td>
+                    <td>@(report.ProfitLoss != null ? report.ProfitLoss : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.CapitalExpenditures != null ? "Capital Expenditures" : null)</strong></td>
+                    <td>@(report.CapitalExpenditures != null ? report.CapitalExpenditures : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.ChangeInReceivables != null ? "Change In Receivables" : null)</strong></td>
+                    <td>@(report.ChangeInReceivables != null ? report.ChangeInReceivables : null)</td>
+                </tr>
+                <tr>
+                    <td><strong>@(report.ChangeInInventory != null ? "Change In Inventory" : null)</strong></td>
+                    <td>@(report.ChangeInInventory != null ? report.ChangeInInventory : null)</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

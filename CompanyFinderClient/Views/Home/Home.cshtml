@@ -22,7 +22,7 @@
                 <td>@company.Symbol</td>
                 <td>@company.Sector</td>
                 <td>@company.Industry</td>
-                <td><a href="@Url.Action("Show", "Company", new { id = company.Id })">Show</a></td>
+                <td><a href="@Url.Action("ShowCompany", "Company", new { id = company.Id })">Show</a></td>
                 <td>
                     <form asp-action="Delete" asp-controller="WatchList" method="post">
                         <input type="hidden" name="id" value="@company.Id" />
