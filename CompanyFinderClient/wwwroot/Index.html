@@ -1,0 +1,77 @@
+﻿<!-- wwwroot/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Stock Chart</h1>
+
+    <form id="chartForm">
+        <label for="symbol">Stock Symbol:</label>
+        <input type="text" id="symbol" name="symbol" required>
+
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate">
+
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate">
+
+        <button type="submit">Generate Chart</button>
+    </form>
+
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const chartForm = document.getElementById('chartForm');
+            const ctx = document.getElementById('myChart').getContext('2d');
+            let myChart;
+
+            chartForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(chartForm);
+
+                // Fetch data from the API based on user input
+                fetch('https://localhost:7287/chart')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Destroy the existing chart if it exists
+                        if (myChart) {
+                            myChart.destroy();
+                        }
+
+                        // Create a new line chart using Chart.js
+                        myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: data.map(item => item.date),  // Assuming your data has a 'date' property
+                                datasets: [{
+                                    label: 'Stock Prices',
+                                    data: data.map(item => item.price),  // Assuming your data has a 'price' property
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1,
+                                    fill: false
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    x: [{
+                                        type: 'linear',
+                                        position: 'bottom'
+                                    }]
+                                }
+                            }
+                        });
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            });
+        });
+    </script>
+</body>
+</html>
