@@ -2,7 +2,7 @@
 
 namespace CompanyFinderAPI.Models
 {
-    public class TimeSeriesMonthly
+    public class DailyTimeSeries
     {
         [JsonPropertyName("1. open")]
         public string Open { get; set; }

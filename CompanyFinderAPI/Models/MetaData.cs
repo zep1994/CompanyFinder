@@ -1,13 +1,10 @@
-﻿namespace CompanyFinderAPI.Models
+﻿using System.Text.Json.Serialization;
+
+namespace CompanyFinderAPI.Models
 {
     public class MetaData
     {
-        public string Information { get; set; }
-
+        [JsonPropertyName("2.Symbol")]
         public string Symbol { get; set; }
-
-        public string LastRefreshed { get; set; }
-
-        public string TimeZone { get; set; }
     }
 }

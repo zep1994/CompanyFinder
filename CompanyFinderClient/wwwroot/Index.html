@@ -1,4 +1,4 @@
-﻿<!-- wwwroot/index.html -->
+﻿﻿<!-- wwwroot/index.html -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,15 +12,6 @@
     <h1>Stock Chart</h1>
 
     <form id="chartForm">
-        <label for="symbol">Stock Symbol:</label>
-        <input type="text" id="symbol" name="symbol" required>
-
-        <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate" name="startDate">
-
-        <label for="endDate">End Date:</label>
-        <input type="date" id="endDate" name="endDate">
-
         <button type="submit">Generate Chart</button>
     </form>
 
@@ -38,22 +29,22 @@
                 const formData = new FormData(chartForm);
 
                 // Fetch data from the API based on user input
-                fetch('https://localhost:7287/chart')
+                fetch('https://localhost:7233/api/chart')
                     .then(response => response.json())
                     .then(data => {
                         // Destroy the existing chart if it exists
                         if (myChart) {
                             myChart.destroy();
                         }
-
+                        console.log(data)
                         // Create a new line chart using Chart.js
                         myChart = new Chart(ctx, {
                             type: 'line',
                             data: {
-                                labels: data.map(item => item.date),  // Assuming your data has a 'date' property
+                                labels: data.labels,  // Assuming your data has a 'date' property
                                 datasets: [{
                                     label: 'Stock Prices',
-                                    data: data.map(item => item.price),  // Assuming your data has a 'price' property
+                                    data: data.prices,  // Assuming your data has a 'price' property
                                     borderColor: 'rgba(75, 192, 192, 1)',
                                     borderWidth: 1,
                                     fill: false

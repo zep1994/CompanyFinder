@@ -9,6 +9,8 @@ namespace CompanyFinderAPI.Controllers
 {
 
 
+    [ApiController]
+    [Route("api/chart")]
     public class ChartController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
@@ -20,8 +22,6 @@ namespace CompanyFinderAPI.Controllers
             _clientFactory = clientFactory;
         }
 
-        [Route("/chart")]
-        [HttpGet]
         public async Task<IActionResult> GetChartData()
         {
             try
@@ -52,21 +52,21 @@ namespace CompanyFinderAPI.Controllers
                 return StatusCode(500, $"Internal Server Error: {ex.Message}");
             }
         }
-         private Chart ProcessDataForChart(ChartResponse chartResponse)
+        private ChartData ProcessDataForChart(ChartResponse chartResponse)
         {
-           
+
 
             var labels = new List<string>();
             var prices = new List<double>();
 
-            foreach (var item in chartResponse.MonthlyTimeSeries)
+            foreach (var item in chartResponse.TimeSeriesDaily)
             {
                 // Assuming that the date is the key in the dictionary
                 labels.Add(item.Key);
                 prices.Add(double.Parse(item.Value.Close));
             }
 
-            var chartData = new Chart
+            var chartData = new ChartData
             {
                 Labels = labels.ToArray(),
                 Prices = prices.ToArray()
