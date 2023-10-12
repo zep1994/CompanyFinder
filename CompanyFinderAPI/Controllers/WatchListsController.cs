@@ -78,6 +78,19 @@ namespace CompanyFinderAPI.Controllers
             return NotFound();
 
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> ShowWatchLists(int id)
+        {
+            var watchlist = await _dbContext.WatchLists.FindAsync(id);
+            if (watchlist == null)
+            {
+                return NotFound("Company not found.");
+            }
+
+            return View("Show", watchlist);
+        }
     }
 
 

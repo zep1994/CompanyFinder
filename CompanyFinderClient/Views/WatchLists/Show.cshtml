@@ -1,5 +1,25 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model CompanyFinderAPI.Models.WatchLists
+
+<div class="watchlist-details">
+    <h2>@Model.Name</h2>
+    <p><strong>Description:</strong> @Model.Description</p>
+    <p><strong>Sector:</strong> @Model.Sector</p>
+    <p><strong>Industry:</strong> @Model.Industry</p>
+
+    <div class="companies-list">
+        <h3>Associated Companies:</h3>
+        @if (Model.Companies.Any())
+        {
+            <ul>
+                @foreach (var company in Model.Companies)
+                {
+                    <li>@company.Name</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No associated companies.</p>
+        }
+    </div>
+</div>

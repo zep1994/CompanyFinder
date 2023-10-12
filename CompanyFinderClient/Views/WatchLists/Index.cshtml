@@ -2,6 +2,9 @@
 
 <h1>WatchList</h1>
 
+<!-- Add create button at the top -->
+<a href="/create" class="btn">Create New</a>
+
 <table class="table">
     <thead>
         <tr>
@@ -13,7 +16,8 @@
         @foreach (var watchList in Model)
         {
             <tr>
-                <td>@watchList.Name</td>
+                <!-- Make watchList.Name clickable -->
+                <td><a href="/api/watchlists/@watchList.Id">@watchList.Name</a></td>
                 <td>
                     @if (watchList.Companies.Any())
                     {

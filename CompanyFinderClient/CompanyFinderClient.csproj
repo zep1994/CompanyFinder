@@ -29,8 +29,4 @@
     <ProjectReference Include="..\CompanyFinderAPI\CompanyFinderAPI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Chart\" />
-  </ItemGroup>
-
 </Project>
