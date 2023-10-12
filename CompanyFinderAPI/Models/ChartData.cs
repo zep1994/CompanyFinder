@@ -2,9 +2,8 @@
 
 namespace CompanyFinderAPI.Models
 {
-    public class Chart
+    public class ChartData
     {
-
         public string[] Labels { get; set; }
         public double[] Prices { get; set; }
     }
