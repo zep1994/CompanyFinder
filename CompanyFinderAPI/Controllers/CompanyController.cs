@@ -16,7 +16,7 @@ namespace CompanyFinderAPI.Controllers
         private readonly AppDbContext _dbContext;
         private readonly IHttpClientFactory _clientFactory;
         private readonly string baseUrl = "https://www.alphavantage.co/query?";
-        private readonly string apiKey = "demo";
+        private readonly string apiKey = "FLW875WO7JXEYS29";
         public string function;
         
 
@@ -49,7 +49,6 @@ namespace CompanyFinderAPI.Controllers
         }
 
         [HttpPost]
-        [Route("savecompany")]
         public async Task<IActionResult> SaveCompany([FromForm] Company company)
         {
             if (company == null)
@@ -57,11 +56,13 @@ namespace CompanyFinderAPI.Controllers
                 return BadRequest("Invalid company data.");
             }
 
-            // Save the company to the database
-            _dbContext.Companies.Add(company);
-            await _dbContext.SaveChangesAsync();
-
-            return View("ShowCompany", company);
+            if (ModelState.IsValid)
+            {
+                _dbContext.Companies.Add(company);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("allcompanies");
+            }
+            return View(company);
         }
 
         [HttpPost]
@@ -110,7 +111,7 @@ namespace CompanyFinderAPI.Controllers
         [Route("Search")]
         public async Task<IActionResult> Search([FromForm] string symbol)
         {
-            var apiKey = "demo";
+            var apiKey = "FLW875WO7JXEYS29";
             var request = new HttpRequestMessage(HttpMethod.Get, $"https://www.alphavantage.co/query?function=OVERVIEW&symbol={symbol}&apikey={apiKey}");
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
@@ -121,7 +122,7 @@ namespace CompanyFinderAPI.Controllers
                 var data = await JsonSerializer.DeserializeAsync<Company>(responseStream);
 
                 // Return the data to the view for displaying in a form
-                return View(); // Assumes you have a corresponding View named "GetCompanyOverview"
+                return View("GetCompanyOverview", data); // Assumes you have a corresponding View named "GetCompanyOverview"
             }
             return BadRequest();
         }

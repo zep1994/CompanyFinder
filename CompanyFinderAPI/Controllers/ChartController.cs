@@ -22,6 +22,13 @@ namespace CompanyFinderAPI.Controllers
             _clientFactory = clientFactory;
         }
 
+        [HttpGet("/get")]
+        public IActionResult StockChart()
+        {
+            return View("~/Views/Chart/StockChart.cshtml");
+        }
+
+
         public async Task<IActionResult> GetChartData()
         {
             try

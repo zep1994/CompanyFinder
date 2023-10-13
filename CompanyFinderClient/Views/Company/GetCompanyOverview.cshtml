@@ -28,7 +28,7 @@
         </tbody>
     </table>
 
-    <form action="http://localhost:5217/savecompany" method="post">
+    <form asp-action="SaveCompany" asp-controller="Company" method="post">
         <!-- Display fetched company data and allow saving -->
         <!-- Use hidden fields to send the fetched data to the SaveController -->
         <input type="hidden" asp-for="Symbol" />
