@@ -49,7 +49,6 @@ namespace CompanyFinderAPI.Controllers
         }
 
         [HttpPost]
-        [Route("savecompany")]
         public async Task<IActionResult> SaveCompany([FromForm] Company company)
         {
             if (company == null)
@@ -57,11 +56,13 @@ namespace CompanyFinderAPI.Controllers
                 return BadRequest("Invalid company data.");
             }
 
-            // Save the company to the database
-            _dbContext.Companies.Add(company);
-            await _dbContext.SaveChangesAsync();
-
-            return View("ShowCompany", company);
+            if (ModelState.IsValid)
+            {
+                _dbContext.Companies.Add(company);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("allcompanies");
+            }
+            return View(company);
         }
 
         [HttpPost]
