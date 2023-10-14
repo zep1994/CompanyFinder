@@ -7,13 +7,15 @@ namespace CompanyFinderAPI.Controllers
     [Route("api/[controller]")]
     public class AnalyzeCompanyController : Controller
     {
+        [HttpGet]
+        [Route("Index")]
         public IActionResult Index()
         {
             return View();
         }
 
-
-        public async Task<IActionResult> CurrentQuarterlyEarnings(Company company)
+        [HttpPost]
+        public async Task<IActionResult> CurrentQuarterlyEarnings([FromForm] string function, [FromForm] string symbol)
         {
             return Ok();
         }

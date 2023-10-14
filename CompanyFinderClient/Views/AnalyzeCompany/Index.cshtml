@@ -1,0 +1,14 @@
+﻿@model CompanyFinderAPI.Models.Fundamentals
+
+
+<form asp-action="CurrentQuarterlyEarnings" asp-controller="AnalyzeCompany" method="post">
+    <input class="ms-auto" type="search" name="symbol" placeholder="Enter Symbol or Name" aria-label="Search">
+    <select id="function" name="function">
+        <option value="INCOME_STATEMENT">Income Statement</option>
+        <option value="EARNINGS">Earnings</option>
+        <option value="BALANCE_SHEET">Balance Sheet</option>
+        <option value="CASH_FLOW">Cash Flow</option>
+        <option value="GLOBAL_QUOTE">Quote</option>
+    </select>
+    <button type="submit">Submit</button>
+</form>
