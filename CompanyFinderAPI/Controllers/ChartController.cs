@@ -1,14 +1,9 @@
 ﻿using CompanyFinderAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System.Reflection.Emit;
-
 
 namespace CompanyFinderAPI.Controllers
 {
-
-
     [ApiController]
     [Route("api/chart")]
     public class ChartController : Controller
@@ -28,7 +23,7 @@ namespace CompanyFinderAPI.Controllers
             return View("~/Views/Chart/StockChart.cshtml");
         }
 
-
+        [HttpGet("GetChartData")]
         public async Task<IActionResult> GetChartData()
         {
             try
@@ -41,9 +36,10 @@ namespace CompanyFinderAPI.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         var responseStream = await response.Content.ReadAsStreamAsync();
-                        var data = await JsonSerializer.DeserializeAsync<ChartResponse>(responseStream);
+                        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                        var data = await JsonSerializer.DeserializeAsync<ChartResponse>(responseStream, options);
 
-                        // Process the data and prepare it for the line graph
+                        // Process the data for the chart
                         var chartData = ProcessDataForChart(data);
 
                         return Ok(chartData);
@@ -59,30 +55,28 @@ namespace CompanyFinderAPI.Controllers
                 return StatusCode(500, $"Internal Server Error: {ex.Message}");
             }
         }
+
         private ChartData ProcessDataForChart(ChartResponse chartResponse)
         {
-
-
             var labels = new List<string>();
             var prices = new List<double>();
 
+            // Loop over the data from the "Monthly Time Series"
             foreach (var item in chartResponse.TimeSeriesDaily)
             {
-                // Assuming that the date is the key in the dictionary
                 labels.Add(item.Key);
                 prices.Add(double.Parse(item.Value.Close));
             }
 
-            var chartData = new ChartData
+            // Reverse the arrays to have chronological order (oldest first)
+            labels.Reverse();
+            prices.Reverse();
+
+            return new ChartData
             {
                 Labels = labels.ToArray(),
                 Prices = prices.ToArray()
             };
-
-            return chartData;
         }
     }
-
-
-
 }
